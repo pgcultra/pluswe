@@ -33,6 +33,8 @@ class FirstClass:
         
 cl = FirstClass()
 cl.method()
+
+print "abc" 'aa'
         
         
         
