@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 def show():
     for i in range(0,5,1):
         print i
@@ -5,7 +6,7 @@ def show():
     return "true"
 show();
 
-f=file("d:\hello.txt",'w')
+f=file("d:\新建文本文档.txt",'w')
 f.write("context");
 f.close()
 
@@ -19,5 +20,7 @@ class FirstClass:
         
 cl = FirstClass()
 cl.method()
+
+
 
         

@@ -1,3 +1,8 @@
-a = 100
-b = 1.2
-print a/b
+# -*- coding: UTF-8 -*-
+import math
+a = 93
+b = 2.3
+#整除
+print a//b
+
+print math.floor(23.4)

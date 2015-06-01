@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 tuple = ('abc',123,1.2)
 print tuple
 list = ['abc',123,1.2]
