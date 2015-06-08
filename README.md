@@ -1,4 +1,4 @@
 pluswe
 ======
 
-由web/biz/dal组成
+由web容器/web应用/采集组成
