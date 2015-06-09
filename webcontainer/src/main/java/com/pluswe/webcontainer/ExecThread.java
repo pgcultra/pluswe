@@ -16,61 +16,37 @@ public class ExecThread implements Runnable {
 
 	public void run() {
 		System.out.println("Thread-"+Thread.currentThread().getId());
-		read2();
-		write();
 		try {
+			read();
+			write();
 			sc.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void read(){
-		System.out.println("    read");
+	private void read() throws IOException{
 		ByteBuffer buffer = ByteBuffer.allocate(1024);
-		byte[] tempB = new byte[1024];
+		buffer.clear();
 		List<Byte> httpmsg = new ArrayList<Byte>();
 		try {
-			int i ;
-			while(sc.read(buffer) != -1){
-				i = 0;
+			while(sc.read(buffer) > 0){
+				buffer.flip();
 				while(buffer.hasRemaining()) {
 					byte bt = buffer.get();
 					httpmsg.add(bt);
-					tempB[i++] = bt;
 				}
-				System.out.println(tempB.toString());
-				buffer.clear();
-				System.out.println("        start 中间值");
-				System.out.println(new String(tempB));
-				System.out.println("        end 中间值");
-				tempB = new byte[1024];
+//				buffer.clear();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("    http head");
 		byte[] result = new byte[httpmsg.size()];
 		int i=0;
 		for(Byte bb : httpmsg){
 			result[i++] = bb;
 		}
-		System.out.println("    result "+new String(result));
-	}
-	
-	private void read2(){
-		System.out.println("    read2");
-		ByteBuffer buffer = ByteBuffer.allocate(1024);
-		try {
-			sc.read(buffer);
-			String message = new String(buffer.array());
-			System.out.println("    result start");
-			System.out.println(message);
-			System.out.println("    result end");
-			Request request = Request.getRequest(message);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Request request = Request.getRequest(new String(result));
 	}
 	
 	private void write(){
