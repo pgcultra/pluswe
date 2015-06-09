@@ -17,7 +17,7 @@ public class ExecThread implements Runnable {
 	public void run() {
 		System.out.println("Thread-"+Thread.currentThread().getId());
 		read2();
-		write2();
+		write();
 		try {
 			sc.close();
 		} catch (IOException e) {
@@ -63,20 +63,28 @@ public class ExecThread implements Runnable {
 		ByteBuffer buffer = ByteBuffer.allocate(1024);
 		try {
 			sc.read(buffer);
+			String message = new String(buffer.array());
 			System.out.println("    result start");
-			System.out.println(new String(buffer.array()));
+			System.out.println(message);
 			System.out.println("    result end");
+			Request request = Request.getRequest(message);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	private void write(){
-		String newData = "HTTP/1.1 200 OK\r\n\r\nNew String to write to file..." + System.currentTimeMillis();
+		Response response = new Response();
+		response.setProtocol("HTTP/1.1");
+		response.setStatusCode(200);
+		response.setReasonPhrase("OK");
+		response.setContentType("text/html");
+		response.setBody("<html><body><a href='www.baidu.com'>New String to write to file...</a></html>");
+		String newData = response.getResponseMes();
+		
 		ByteBuffer buf = ByteBuffer.allocate(1024);
-		buf.clear();
 		buf.put(newData.getBytes());
+		buf.flip();
 		while(buf.hasRemaining()) {
 			try {
 				sc.write(buf);
@@ -86,14 +94,4 @@ public class ExecThread implements Runnable {
 		}
 	}
 	
-	private void write2(){
-		String newData = "HTTP/1.1 200 OK\r\n\r\nNew String to write to file..." + System.currentTimeMillis();
-		ByteBuffer buf = ByteBuffer.wrap(newData.getBytes());
-		try {
-			sc.write(buf);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }
