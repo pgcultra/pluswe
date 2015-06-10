@@ -21,6 +21,4 @@ class FirstClass:
 cl = FirstClass()
 cl.method()
 
-
-
         
