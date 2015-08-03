@@ -9,7 +9,7 @@ public class Server {
 	
 	public void start() throws IOException{
 		ServerSocketChannel server = ServerSocketChannel.open();
-		server.socket().bind(new InetSocketAddress(8080));
+		server.socket().bind(new InetSocketAddress(8081));
 		int i = 0 ;
 		while(true) {
 			SocketChannel sc = server.accept();
